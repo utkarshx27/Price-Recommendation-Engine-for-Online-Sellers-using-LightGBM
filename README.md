@@ -52,3 +52,17 @@ plt.title('Price Distribution', fontsize=12)
 sns.boxplot(x = 'item_condition_id', y =np.log(train['price']+1), data = train, palette = sns.color_palette('RdBu',5))
 ```
 ![alt text](https://github.com/utkarshh27/Price-Recommendation-for-Online-Sellers/blob/89205c47be4c5a09ca383477f04765b6b56cca4c/chart2.png?raw=true)
+
+
+
+## Parameters Used
+```
+params = {
+    'learning_rate': 0.75,
+    'application': 'regression',
+    'max_depth': 3,
+    'num_leaves': 100,
+    'verbosity': -1,
+    'metric': 'RMSE',
+}
+```

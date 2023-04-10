@@ -14,7 +14,7 @@ E-commerce platforms today are extensively driven by machine learning algorithms
 
 Dataset-source: https://www.kaggle.com/competitions/mercari-price-suggestion-challenge/data
 
-# Import Packages
+## Import Packages
 
 ```
 import numpy as np
@@ -32,6 +32,23 @@ from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import mean_squared_error
 import lightgbm as lgb
 ```
-# Visulization
+## Visulization
+### Price Distribution Chart
+```
+plt.subplot(1,2,1)
+(train['price']).plot.hist(bins=50, figsize=(12, 6), edgecolor = 'white', range= [0,200])
+plt.xlabel('Price', fontsize=12)
+plt.title('Price Distribution', fontsize=12)
+plt.subplot(1,2,2)
+np.log(train['price']+1).plot.hist(bins=50, figsize=(12, 6), edgecolor = 'white')
+plt.xlabel('log(Price)+1', fontsize=12)
+plt.title('Price Distribution', fontsize=12)
+```
+![alt text](https://github.com/utkarshh27/Price-Recommendation-for-Online-Sellers/blob/89205c47be4c5a09ca383477f04765b6b56cca4c/chart1.png?raw=true)
 
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+
+### Item Condition Representation
+```
+sns.boxplot(x = 'item_condition_id', y =np.log(train['price']+1), data = train, palette = sns.color_palette('RdBu',5))
+```
+![alt text](https://github.com/utkarshh27/Price-Recommendation-for-Online-Sellers/blob/89205c47be4c5a09ca383477f04765b6b56cca4c/chart2.png?raw=true)

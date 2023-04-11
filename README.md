@@ -63,7 +63,7 @@ ax.set_xticklabels(ax.get_xticklabels(),rotation=90)
 ax.set_title('Top 20 Brand Distribution', fontsize=15)
 plt.show()
 ```
-![alt text](https://github.com/utkarshh27/Price-Recommendation-for-Online-Sellers/blob/89205c47be4c5a09ca383477f04765b6b56cca4c/chart2.png?raw=true)
+![alt text](https://github.com/utkarshh27/Price-Recommendation-for-Online-Sellers/blob/dd22de77b1a0e17bbeffdf4a05dcce2df5e58d25/chart3.png?raw=true)
 
 
 ## Data pre-processing

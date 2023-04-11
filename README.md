@@ -2,7 +2,6 @@
 ## Description- 
 E-commerce platforms today are extensively driven by machine learning algorithms, right from quality checking and inventory management to sales demographics and product recommendations, all use machine learning. One more interesting business use case that e-commerce apps and websites are trying to solve is to eliminate human interference in providing price suggestions to the sellers on their marketplace to speed up the efficiency of the shopping website or app. That's when price recommendation using machine learning comes to play.
 
-![alt text](https://github.com/utkarshh27/Price-Recommendation-for-Online-Sellers/blob/01f1efda01281a9f15e19c82590fbc32c3db37c4/head1.gif?raw=true)
 ## Dataset Features
 
 * ID: the id of the listing
@@ -16,6 +15,7 @@ E-commerce platforms today are extensively driven by machine learning algorithms
 
 Dataset-source: https://www.kaggle.com/competitions/mercari-price-suggestion-challenge/data
 
+![alt text](https://github.com/utkarshh27/Price-Recommendation-for-Online-Sellers/blob/01f1efda01281a9f15e19c82590fbc32c3db37c4/head1.gif?raw=true)
 ## Import Packages
 
 ```
@@ -55,8 +55,38 @@ sns.boxplot(x = 'item_condition_id', y =np.log(train['price']+1), data = train, 
 ```
 ![alt text](https://github.com/utkarshh27/Price-Recommendation-for-Online-Sellers/blob/89205c47be4c5a09ca383477f04765b6b56cca4c/chart2.png?raw=true)
 
+### Top 20 Brand Distribution Representation
+```
+b20 = train['brand_name'].value_counts()[0:20].reset_index().rename(columns={'index': 'brand_name', 'brand_name':'count'})
+ax = sns.barplot(x="brand_name", y="count", data=b20)
+ax.set_xticklabels(ax.get_xticklabels(),rotation=90)
+ax.set_title('Top 20 Brand Distribution', fontsize=15)
+plt.show()
+```
+![alt text](https://github.com/utkarshh27/Price-Recommendation-for-Online-Sellers/blob/89205c47be4c5a09ca383477f04765b6b56cca4c/chart2.png?raw=true)
 
 
+## Data pre-processing
+
+```
+def heandel_missing_inplace(dataset):
+    dataset['category_name'].fillna(value='missing', inplace=True)
+    dataset['brand_name'].fillna(value='missing', inplace=True)
+    dataset['item_description'].replace('No description yet,''missing', inplace=True)
+    dataset['item_description'].fillna(value='missing', inplace=True)
+    
+    
+def cutting(dataset):
+    pop_brand = dataset['brand_name'].value_counts().loc[lambda x: x.index != 'missing'].index[:NUM_BRANDS]
+    dataset.loc[~dataset['brand_name'].isin(pop_brand), 'brand_name'] = 'missing'
+    pop_category = dataset['category_name'].value_counts().loc[lambda x: x.index != 'missing'].index[:NUM_CATEGORIES]
+
+    
+def to_categorical(dataset):
+    dataset['category_name'] = dataset['category_name'].astype('category')
+    dataset['brand_name'] = dataset['brand_name'].astype('category')
+    dataset['item_condition_id'] = dataset['item_condition_id'].astype('category')
+```
 ## Parameters Used
 ```
 params = {
@@ -68,3 +98,5 @@ params = {
     'metric': 'RMSE',
 }
 ```
+
+

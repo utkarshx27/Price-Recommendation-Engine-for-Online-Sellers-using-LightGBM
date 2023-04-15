@@ -66,7 +66,7 @@ plt.show()
 ![alt text](https://github.com/utkarshh27/Price-Recommendation-for-Online-Sellers/blob/dd22de77b1a0e17bbeffdf4a05dcce2df5e58d25/chart3.png?raw=true)
 
 
-## Data pre-processing
+## Data pre-processing (helper functions)
 
 ```
 def heandel_missing_inplace(dataset):

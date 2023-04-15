@@ -87,6 +87,24 @@ def to_categorical(dataset):
     dataset['brand_name'] = dataset['brand_name'].astype('category')
     dataset['item_condition_id'] = dataset['item_condition_id'].astype('category')
 ```
+## Transforming Data
+```
+#Count vectorize name and category name columns.
+cv = CountVectorizer(min_df=NAME_MIN_DF)   
+x_name = cv.fit_transform(merge['name'])     
+cv = CountVectorizer()
+x_category = cv.fit_transform(merge['category_name'])
+```
+```
+#TF-IDF Vectorize item_description column.
+tv = TfidfVectorizer(max_features=MAX_FEATURES_ITEM_DESCRIPTION, ngram_range=(1, 3), stop_words='english')
+X_description = tv.fit_transform(merge['item_description'])
+```
+```
+#Label binarize brand_name column.
+lb = LabelBinarizer(sparse_output=True)
+X_brand = lb.fit_transform(merge['brand_name'])
+```
 ## Parameters Used
 ```
 params = {
@@ -98,5 +116,23 @@ params = {
     'metric': 'RMSE',
 }
 ```
+* Use ‘regression’ as application as we are dealing with a regression problem.
+* Use ‘RMSE’ as metric because this is a regression problem.
+* num_leaves=100 as our data is relative big.
+* Use “max_depth to avoid overfitting.
+* Use “verbosity to control the level of LightGBM’s verbosity.
+* learning_rate determines the impact of each tree on the final outcome.
+## Train
 
-
+```
+gbm = lgb.train(params, train_set=train_X, num_boost_round=3200,verbose_eval=100)
+```
+## Test
+```
+y_pred = gbm.predict(X_test, num_iteration=gbm.best_iteration)
+```
+## Evaluation
+```
+mean_squared_error(y_test, y_pred)
+```
+0.21321232298146012

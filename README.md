@@ -37,16 +37,16 @@ import lightgbm as lgb
 ## Visulization
 ### Price Distribution Chart
 ```
-plt.subplot(1,2,1)
-(train['price']).plot.hist(bins=50, figsize=(12, 6), edgecolor = 'white', range= [0,200])
-plt.xlabel('Price', fontsize=12)
+plt.subplot(1, 2, 1)
+(train['price']).plot.hist(bins=50, figsize=(12, 6), edgecolor = 'black', range = [0, 250],color = 'pink')
+plt.xlabel('price', fontsize=12)
 plt.title('Price Distribution', fontsize=12)
-plt.subplot(1,2,2)
-np.log(train['price']+1).plot.hist(bins=50, figsize=(12, 6), edgecolor = 'white')
-plt.xlabel('log(Price)+1', fontsize=12)
+plt.subplot(1, 2, 2)
+np.log(train['price']+1).plot.hist(bins=50, figsize=(12,6), edgecolor='black')
+plt.xlabel('log(price+1)', fontsize=12)
 plt.title('Price Distribution', fontsize=12)
 ```
-![alt text](https://github.com/utkarshh27/Price-Recommendation-for-Online-Sellers/blob/89205c47be4c5a09ca383477f04765b6b56cca4c/chart1.png?raw=true)
+![alt text](https://github.com/utkarshh27/Price-Recommendation-for-Online-Sellers/blob/52a7e874abf2e0d19f339dda9a5b84d9295cc714/price_img_dist.png?raw=true)
 
 
 ### Item Condition Representation

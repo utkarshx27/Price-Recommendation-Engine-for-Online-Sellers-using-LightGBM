@@ -1,6 +1,7 @@
 # Price Recommendation Engine for Online Sellers using LightGBM
-![alt text](https://github.com/utkarshh27/Price-Recommendation-for-Online-Sellers/blob/01f1efda01281a9f15e19c82590fbc32c3db37c4/head1.gif?raw=true)
-
+<p align="center">
+  <img src="https://github.com/utkarshh27/Price-Recommendation-for-Online-Sellers/blob/01f1efda01281a9f15e19c82590fbc32c3db37c4/head1.gif?raw=true" alt="Price Recommendation Engine">
+</p>
 ## Table of Contents
 1. [Introduction](#Introduction)
 2. [Project Overview](#project-overview)

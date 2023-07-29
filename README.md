@@ -10,11 +10,12 @@
 4. [Data Preprocessing](#data-preprocessing)
 5. [Feature Engineering](#feature-engineering)
 6. [Model Training](#model-training)
-7. [Evaluation](#evaluation)
-8. [Installation](#installation)
-9. [Usage](#usage)
-10. [Contributing](#contributing)
-11. [License](#license)
+7. [Hyperparameter Tuning](hyperparameter-tuning)
+8. [Evaluation](#evaluation)
+9. [Installation](#installation)
+10. [Usage](#usage)
+11. [Contributing](#contributing)
+12. [License](#license)
 
 <a name="Introduction"/>
 
@@ -67,11 +68,74 @@ Feature engineering is a crucial step to create meaningful predictors for the mo
 
 LightGBM, a gradient boosting framework, is used to build the price recommendation model. It is chosen for its efficiency and ability to handle large datasets. The model is trained on the preprocessed data and tuned using hyperparameters for optimal performance.
 
+<a name="Hyperparameter-Tuning"/>
+
+## 6. Hyperparameter Tuning
+
+Hyperparameter tuning is crucial for optimizing the model's performance. In this case, the hyperparameters to be tuned are 'max_depth' and 'num_leaves'. Grid search with cross-validation (5-fold) is employed to find the best combination of these hyperparameters.
+```
+param_grid = {
+    'max_depth': [3, 5, 7],
+    'num_leaves': [50, 100, 150],
+}
+
+grid_search = GridSearchCV(gbm, param_grid, cv=5, scoring='neg_mean_squared_error')
+grid_search.fit(X, y)
+
+best_params = grid_search.best_params_
+gbm = lgb.LGBMRegressor(application='regression', metric='RMSE', verbosity=-1, **best_params)
+gbm.fit(X, y)
+
+```
+After the hyperparameter tuning process, the best set of hyperparameters is obtained and used to reinitialize the LightGBMRegressor model.
+
 <a name="Evaluation"/>
 
 ## 7. Evaluation
 
-The model's performance is evaluated using the Root Mean Squared Error (RMSE) metric on the test set. Lower RMSE indicates better prediction accuracy. Additionally, a visualization of the price distribution is provided.
+The model's performance is assessed using several metrics on the test set:
+```
+y_pred = gbm.predict(X_test)
+mse = mean_squared_error(y_test, y_pred)
+mae = mean_absolute_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+print("Best Hyperparameters:", best_params)
+print("Mean Squared Error:", mse)
+print("Mean Absolute Error:", mae)
+print("R^2 Score:", r2)
+
+```
+The metrics used for evaluation are:
+
+- Mean Squared Error (MSE): The mean squared difference between the actual and predicted target values. Lower MSE indicates better performance.
+- Mean Absolute Error (MAE): The mean absolute difference between the actual and predicted target values. Lower MAE indicates better performance.
+- R^2 Score: The coefficient of determination, which measures the proportion of variance in the target variable explained by the model. A value closer to 1 indicates better model fit.
+
+Additionally, to visualize the model's performance and assess potential overfitting, a learning curve is plotted:
+```
+train_sizes, train_scores, test_scores = learning_curve(
+    gbm, X, y, cv=5, scoring='neg_mean_squared_error', train_sizes=np.linspace(0.1, 1.0, 10)
+)
+
+train_scores_mean = -np.mean(train_scores, axis=1)
+train_scores_std = np.std(train_scores, axis=1)
+test_scores_mean = -np.mean(test_scores, axis=1)
+test_scores_std = np.std(test_scores, axis=1)
+
+plt.figure(figsize=(8, 6))
+plt.fill_between(train_sizes, train_scores_mean - train_scores_std, train_scores_mean + train_scores_std, alpha=0.1, color='r')
+plt.fill_between(train_sizes, test_scores_mean - test_scores_std, test_scores_mean + test_scores_std, alpha=0.1, color='g')
+plt.plot(train_sizes, train_scores_mean, 'o-', color='r', label='Training Error')
+plt.plot(train_sizes, test_scores_mean, 'o-', color='g', label='Cross-validation Error')
+plt.xlabel('Training Size')
+plt.ylabel('Negative Mean Squared Error')
+plt.legend(loc='best')
+plt.title('Learning Curve')
+plt.show()
+
+```
+The learning curve helps to analyze how the model's performance changes as the training data size increases and can give insights into potential overfitting or underfitting.
 
 <a name="Installation"/>
 

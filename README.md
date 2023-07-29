@@ -1,9 +1,30 @@
 # Price Recommendation Engine for Online Sellers using LightGBM
+![alt text](https://github.com/utkarshh27/Price-Recommendation-for-Online-Sellers/blob/01f1efda01281a9f15e19c82590fbc32c3db37c4/head1.gif?raw=true)
 
-E-commerce platforms today are extensively driven by machine learning algorithms, right from quality checking and inventory management to sales demographics and product recommendations, all use machine learning. One more interesting business use case that e-commerce apps and websites are trying to solve is to eliminate human interference in providing price suggestions to the sellers on their marketplace to speed up the efficiency of the shopping website or app. That's when price recommendation using machine learning comes to play.
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Project Overview](#project-overview)
+3. [Dataset](#dataset)
+4. [Data Preprocessing](#data-preprocessing)
+5. [Feature Engineering](#feature-engineering)
+6. [Model Training](#model-training)
+7. [Evaluation](#evaluation)
+8. [Installation](#installation)
+9. [Usage](#usage)
+10. [Contributing](#contributing)
+11. [License](#license)
 
-## Dataset Features
+## 1. Introduction
 
+This is a machine learning project that aims to build a price recommendation engine for online sellers using the LightGBM algorithm. The objective is to predict the appropriate selling price for different products listed by sellers on an e-commerce platform.
+
+## 2. Project Overview
+
+In today's e-commerce world, setting the right price for a product is crucial for sellers to attract buyers and maximize their profits. However, determining the optimal price can be challenging due to various factors like product category, brand, condition, shipping cost, and more. This project leverages machine learning to help sellers make data-driven decisions on pricing.
+
+## 3. Dataset
+
+The dataset used in this project is obtained from the "Mercari Price Suggestion Challenge" on Kaggle. It contains product listings with features like `name`, `item_condition_id`, `category_name`, `brand_name`, `shipping`, `item_description`, and the target variable `price`. The data is split into training and testing sets.
 * ID: the id of the listing
 * Name: the title of the listing
 * Item Condition: the condition of the items provided by the seller
@@ -13,126 +34,49 @@ E-commerce platforms today are extensively driven by machine learning algorithms
 * Item Description: the full description of the item
 * Price: the price that the item was sold for. This is the target variable that you will predict. The unit is USD.
 
-Dataset-source: https://www.kaggle.com/competitions/mercari-price-suggestion-challenge/data
+Dataset-source: [Kaggle - Mercari Price Suggestion Challenge](https://www.kaggle.com/competitions/mercari-price-suggestion-challenge/data)
 
-![alt text](https://github.com/utkarshh27/Price-Recommendation-for-Online-Sellers/blob/01f1efda01281a9f15e19c82590fbc32c3db37c4/head1.gif?raw=true)
-## Import Packages
+## 4. Data Preprocessing
 
-```
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-import gc
-import time
-```
-```
-from scipy.sparse import csr_matrix, hstack
-from sklearn.preprocessing import LabelBinarizer
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-from sklearn.model_selection import train_test_split, cross_val_score
-from sklearn.metrics import mean_squared_error
-import lightgbm as lgb
-```
-## Visulization
-### Price Distribution Chart
-```
-plt.subplot(1, 2, 1)
-(train['price']).plot.hist(bins=50, figsize=(12, 6), edgecolor = 'black', range = [0, 250],color = 'pink')
-plt.xlabel('price', fontsize=12)
-plt.title('Price Distribution', fontsize=12)
-plt.subplot(1, 2, 2)
-np.log(train['price']+1).plot.hist(bins=50, figsize=(12,6), edgecolor='black')
-plt.xlabel('log(price+1)', fontsize=12)
-plt.title('Price Distribution', fontsize=12)
-```
-![alt text](https://github.com/utkarshh27/Price-Recommendation-for-Online-Sellers/blob/52a7e874abf2e0d19f339dda9a5b84d9295cc714/price_img_dist.png?raw=true)
+Before building the model, the data undergoes preprocessing steps to handle missing values and clean the text data. The preprocessing includes:
+- Handling missing values in `category_name`, `brand_name`, and `item_description` fields.
+- Converting `item_condition_id`, `category_name`, and `brand_name` to categorical variables.
 
+## 5. Feature Engineering
 
-### Item Condition Representation
-```
-sns.boxplot(x = 'item_condition_id', y =np.log(train['price']+1), data = train, palette = sns.color_palette('RdBu',5))
-```
-![alt text](https://github.com/utkarshh27/Price-Recommendation-for-Online-Sellers/blob/89205c47be4c5a09ca383477f04765b6b56cca4c/chart2.png?raw=true)
+Feature engineering is a crucial step to create meaningful predictors for the model. Key features are created from the existing data, such as:
+- Count vectorization of `name` and `category_name`.
+- TF-IDF vectorization of `item_description`.
+- One-hot encoding of `item_condition_id` and `shipping`.
 
-### Top 20 Brand Distribution Representation
-```
-b20 = train['brand_name'].value_counts()[0:20].reset_index().rename(columns={'index': 'brand_name', 'brand_name':'count'})
-ax = sns.barplot(x="brand_name", y="count", data=b20)
-ax.set_xticklabels(ax.get_xticklabels(),rotation=90)
-ax.set_title('Top 20 Brand Distribution', fontsize=15)
-plt.show()
-```
-![alt text](https://github.com/utkarshh27/Price-Recommendation-for-Online-Sellers/blob/dd22de77b1a0e17bbeffdf4a05dcce2df5e58d25/chart3.png?raw=true)
+## 6. Model Training
 
+LightGBM, a gradient boosting framework, is used to build the price recommendation model. It is chosen for its efficiency and ability to handle large datasets. The model is trained on the preprocessed data and tuned using hyperparameters for optimal performance.
 
-## Data pre-processing (helper functions)
+## 7. Evaluation
 
-```
-def heandel_missing_inplace(dataset):
-    dataset['category_name'].fillna(value='missing', inplace=True)
-    dataset['brand_name'].fillna(value='missing', inplace=True)
-    dataset['item_description'].replace('No description yet,''missing', inplace=True)
-    dataset['item_description'].fillna(value='missing', inplace=True)
-    
-    
-def cutting(dataset):
-    pop_brand = dataset['brand_name'].value_counts().loc[lambda x: x.index != 'missing'].index[:NUM_BRANDS]
-    dataset.loc[~dataset['brand_name'].isin(pop_brand), 'brand_name'] = 'missing'
-    pop_category = dataset['category_name'].value_counts().loc[lambda x: x.index != 'missing'].index[:NUM_CATEGORIES]
+The model's performance is evaluated using the Root Mean Squared Error (RMSE) metric on the test set. Lower RMSE indicates better prediction accuracy. Additionally, a visualization of the price distribution is provided.
 
-    
-def to_categorical(dataset):
-    dataset['category_name'] = dataset['category_name'].astype('category')
-    dataset['brand_name'] = dataset['brand_name'].astype('category')
-    dataset['item_condition_id'] = dataset['item_condition_id'].astype('category')
-```
-## Transforming Data
-```
-#Count vectorize name and category name columns.
-cv = CountVectorizer(min_df=NAME_MIN_DF)   
-x_name = cv.fit_transform(merge['name'])     
-cv = CountVectorizer()
-x_category = cv.fit_transform(merge['category_name'])
-```
-```
-#TF-IDF Vectorize item_description column.
-tv = TfidfVectorizer(max_features=MAX_FEATURES_ITEM_DESCRIPTION, ngram_range=(1, 3), stop_words='english')
-X_description = tv.fit_transform(merge['item_description'])
-```
-```
-#Label binarize brand_name column.
-lb = LabelBinarizer(sparse_output=True)
-X_brand = lb.fit_transform(merge['brand_name'])
-```
-## Parameters Used
-```
-params = {
-    'learning_rate': 0.75,
-    'application': 'regression',
-    'max_depth': 3,
-    'num_leaves': 100,
-    'verbosity': -1,
-    'metric': 'RMSE',
-}
-```
-* Use ‘regression’ as application as we are dealing with a regression problem.
-* Use ‘RMSE’ as metric because this is a regression problem.
-* num_leaves=100 as our data is relative big.
-* Use “max_depth to avoid overfitting.
-* Use “verbosity to control the level of LightGBM’s verbosity.
-* learning_rate determines the impact of each tree on the final outcome.
-## Train
+## 8. Installation
 
-```
-gbm = lgb.train(params, train_set=train_X, num_boost_round=3200,verbose_eval=100)
-```
-## Test
-```
-y_pred = gbm.predict(X_test, num_iteration=gbm.best_iteration)
-```
-## Evaluation
-```
-mean_squared_error(y_test, y_pred)
-```
-0.21321232298146012
+To run the project, follow these steps:
+1. Clone the repository: `git clone https://github.com/yourusername/price-recommendation.git`
+2. Navigate to the project directory: `cd price-recommendation`
+3. Install the required dependencies: `pip install -r requirements.txt`
+
+## 9. Usage
+
+To use the price recommendation engine, follow these steps:
+1. Prepare your product data in a CSV format similar to the training dataset.
+2. Load the data and preprocess it using the `heandel_missing_inplace()` and `cutting()` functions.
+3. Transform the text data using vectorization methods like CountVectorizer and TF-IDF.
+4. Load the trained LightGBM model and use it to predict prices for your products.
+5. Analyze the recommendations and make informed pricing decisions.
+
+## 10. Contributing
+
+Contributions to this project are welcome. If you find any issues or want to add new features, please submit a pull request. For major changes, open an issue first to discuss the proposed changes.
+
+## 11. License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

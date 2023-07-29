@@ -10,7 +10,7 @@
 4. [Data Preprocessing](#data-preprocessing)
 5. [Feature Engineering](#feature-engineering)
 6. [Model Training](#model-training)
-7. [Hyperparameter Tuning](hyperparameter-tuning)
+7. [Hyperparameter Tuning](Hyperparameter-Tuning)
 8. [Evaluation](#evaluation)
 9. [Installation](#installation)
 10. [Usage](#usage)

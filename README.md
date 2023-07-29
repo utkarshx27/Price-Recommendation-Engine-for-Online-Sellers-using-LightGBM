@@ -2,7 +2,7 @@
 ![alt text](https://github.com/utkarshh27/Price-Recommendation-for-Online-Sellers/blob/01f1efda01281a9f15e19c82590fbc32c3db37c4/head1.gif?raw=true)
 
 ## Table of Contents
-1. [Introduction](#introduction)
+1. [Introduction](#Introduction)
 2. [Project Overview](#project-overview)
 3. [Dataset](#dataset)
 4. [Data Preprocessing](#data-preprocessing)
@@ -14,7 +14,10 @@
 10. [Contributing](#contributing)
 11. [License](#license)
 
+<a name="Introduction"/>
 ## 1. Introduction
+
+## 
 
 This is a machine learning project that aims to build a price recommendation engine for online sellers using the LightGBM algorithm. The objective is to predict the appropriate selling price for different products listed by sellers on an e-commerce platform.
 

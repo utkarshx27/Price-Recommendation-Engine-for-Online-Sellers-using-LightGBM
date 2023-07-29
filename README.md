@@ -15,6 +15,7 @@
 11. [License](#license)
 
 <a name="Introduction"/>
+
 ## 1. Introduction
 
 This is a machine learning project that aims to build a price recommendation engine for online sellers using the LightGBM algorithm. The objective is to predict the appropriate selling price for different products listed by sellers on an e-commerce platform.

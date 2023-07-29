@@ -42,7 +42,7 @@ The dataset used in this project is obtained from the "Mercari Price Suggestion 
 
 Dataset-source: [Kaggle - Mercari Price Suggestion Challenge](https://www.kaggle.com/competitions/mercari-price-suggestion-challenge/data)
 
-<a name="Data Preprocessing"/>
+<a name="Data-Preprocessing"/>
 
 ## 4. Data Preprocessing
 
@@ -50,7 +50,7 @@ Before building the model, the data undergoes preprocessing steps to handle miss
 - Handling missing values in `category_name`, `brand_name`, and `item_description` fields.
 - Converting `item_condition_id`, `category_name`, and `brand_name` to categorical variables.
 
-<a name="Feature Engineering"/>
+<a name="Feature-Engineering"/>
 
 ## 5. Feature Engineering
 
@@ -59,7 +59,7 @@ Feature engineering is a crucial step to create meaningful predictors for the mo
 - TF-IDF vectorization of `item_description`.
 - One-hot encoding of `item_condition_id` and `shipping`.
 
-<a name="Model Training"/>
+<a name="Model-Training"/>
 
 ## 6. Model Training
 

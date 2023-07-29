@@ -70,7 +70,7 @@ LightGBM, a gradient boosting framework, is used to build the price recommendati
 
 <a name="Hyperparameter-Tuning"/>
 
-## 6. Hyperparameter Tuning
+## 7. Hyperparameter Tuning
 
 Hyperparameter tuning is crucial for optimizing the model's performance. In this case, the hyperparameters to be tuned are 'max_depth' and 'num_leaves'. Grid search with cross-validation (5-fold) is employed to find the best combination of these hyperparameters.
 ```
@@ -91,7 +91,7 @@ After the hyperparameter tuning process, the best set of hyperparameters is obta
 
 <a name="Evaluation"/>
 
-## 7. Evaluation
+## 8. Evaluation
 
 The model's performance is assessed using several metrics on the test set:
 ```
@@ -139,7 +139,7 @@ The learning curve helps to analyze how the model's performance changes as the t
 
 <a name="Installation"/>
 
-## 8. Installation
+## 9. Installation
 
 To run the project, follow these steps:
 1. Clone the repository: `git clone https://github.com/yourusername/price-recommendation.git`
@@ -148,7 +148,7 @@ To run the project, follow these steps:
 
 <a name="Usage"/>
 
-## 9. Usage
+## 10. Usage
 
 To use the price recommendation engine, follow these steps:
 1. Prepare your product data in a CSV format similar to the training dataset.
@@ -159,7 +159,7 @@ To use the price recommendation engine, follow these steps:
 
 <a name="Contributing"/>
 
-## 10. Contributing
+## 11. Contributing
 
 Contributions to this project are welcome. If you find any issues or want to add new features, please submit a pull request. For major changes, open an issue first to discuss the proposed changes.
 

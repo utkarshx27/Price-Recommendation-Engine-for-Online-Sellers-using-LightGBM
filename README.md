@@ -20,9 +20,13 @@
 
 This is a machine learning project that aims to build a price recommendation engine for online sellers using the LightGBM algorithm. The objective is to predict the appropriate selling price for different products listed by sellers on an e-commerce platform.
 
+<a name="Project Overview"/>
+
 ## 2. Project Overview
 
 In today's e-commerce world, setting the right price for a product is crucial for sellers to attract buyers and maximize their profits. However, determining the optimal price can be challenging due to various factors like product category, brand, condition, shipping cost, and more. This project leverages machine learning to help sellers make data-driven decisions on pricing.
+
+<a name="Dataset"/>
 
 ## 3. Dataset
 
@@ -38,11 +42,15 @@ The dataset used in this project is obtained from the "Mercari Price Suggestion 
 
 Dataset-source: [Kaggle - Mercari Price Suggestion Challenge](https://www.kaggle.com/competitions/mercari-price-suggestion-challenge/data)
 
+<a name="Data Preprocessing"/>
+
 ## 4. Data Preprocessing
 
 Before building the model, the data undergoes preprocessing steps to handle missing values and clean the text data. The preprocessing includes:
 - Handling missing values in `category_name`, `brand_name`, and `item_description` fields.
 - Converting `item_condition_id`, `category_name`, and `brand_name` to categorical variables.
+
+<a name="Feature Engineering"/>
 
 ## 5. Feature Engineering
 
@@ -51,13 +59,19 @@ Feature engineering is a crucial step to create meaningful predictors for the mo
 - TF-IDF vectorization of `item_description`.
 - One-hot encoding of `item_condition_id` and `shipping`.
 
+<a name="Model Training"/>
+
 ## 6. Model Training
 
 LightGBM, a gradient boosting framework, is used to build the price recommendation model. It is chosen for its efficiency and ability to handle large datasets. The model is trained on the preprocessed data and tuned using hyperparameters for optimal performance.
 
+<a name="Evaluation"/>
+
 ## 7. Evaluation
 
 The model's performance is evaluated using the Root Mean Squared Error (RMSE) metric on the test set. Lower RMSE indicates better prediction accuracy. Additionally, a visualization of the price distribution is provided.
+
+<a name="Installation"/>
 
 ## 8. Installation
 
@@ -65,6 +79,8 @@ To run the project, follow these steps:
 1. Clone the repository: `git clone https://github.com/yourusername/price-recommendation.git`
 2. Navigate to the project directory: `cd price-recommendation`
 3. Install the required dependencies: `pip install -r requirements.txt`
+
+<a name="Usage"/>
 
 ## 9. Usage
 
@@ -75,9 +91,13 @@ To use the price recommendation engine, follow these steps:
 4. Load the trained LightGBM model and use it to predict prices for your products.
 5. Analyze the recommendations and make informed pricing decisions.
 
+<a name="Contributing"/>
+
 ## 10. Contributing
 
 Contributions to this project are welcome. If you find any issues or want to add new features, please submit a pull request. For major changes, open an issue first to discuss the proposed changes.
+
+<a name="License"/>
 
 ## 11. License
 
